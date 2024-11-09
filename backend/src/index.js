@@ -1,9 +1,12 @@
 import express from 'express'
 import connectDb from './config/dbConfig.js';
 import { port } from './config/serverConfig.js';
+import apirouter from './Routes/apiRouter.js';
 
 
 const app = express();
+
+app.use('/api', apirouter);
 
 app.get('/ping' , (req , res) => {
     return res.json({
