@@ -1,5 +1,6 @@
 import { findUserByEmail, registerOnDb } from "../repository/userRepository.js";
 import { CreateToken } from "../utils/jwt.js";
+import bcrypt from 'bcrypt'
 
 export async function signupService(userObject){
     try {
@@ -15,11 +16,17 @@ export async function signinService(userObject){
     const userDetails = userObject;
     const user = await findUserByEmail(userDetails.email);
     try {
-        if(!user){
+        if (!user || userDetails.username != user.username){
             throw null;
         }
-        const token = CreateToken(userObject);
-        return token;
+        const result = await bcrypt.compare(userObject.password , user.password);
+        if(result){
+            const token = CreateToken(userObject);
+            return token;
+        }
+        else{
+            throw null;
+        }
     } catch (error) {
         throw error;
     }
