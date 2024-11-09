@@ -1,3 +1,5 @@
+import { registerOnDb } from "../repository/userRepository.js";
+
 export async function signupService(userObject){
     try {
         const response = await registerOnDb(userObject);
