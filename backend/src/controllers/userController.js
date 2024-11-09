@@ -30,7 +30,7 @@ export async function signinController(req , res){
     } catch (error) {
         return res.json({
             success: false,
-            message: "Something went wrong",
+            message: "Credential mismatch",
         })
     }
 }
