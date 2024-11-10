@@ -20,12 +20,16 @@ const userSchema = new mongoose.Schema({
         type:String,
         required: [true, "Password is required"],
         minlength:[4 , "Minimum 4 length string is required"]
+    },
+    avatar:{
+        type:String
     }
 
 } , {timestamps:true});
 
 userSchema.pre('save' , function modify(next){
     const user = this;
+    user.avatar = `https://robohash.org/${user.username}`
     const salt = bcrypt.genSaltSync(9);
     const hashedpassword = bcrypt.hashSync(user.password , salt);
     user.password = hashedpassword;
